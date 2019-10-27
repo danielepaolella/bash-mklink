@@ -1,0 +1,17 @@
+#!/bin/bash
+
+unix_path_to_win() {
+	# - convert to an absolute path
+	# - replace any starting /x/ by x:/
+	# - replace all / by \
+	readlink -f "$1" \
+		| sed 's#^/\(\w\)/#\1:/#' \
+		| sed 's#/#\\#g'
+}
+
+export unix_path_to_win
+
+link=$(unix_path_to_win "$1")
+target=$(unix_path_to_win "$2")
+
+nircmdc.exe elevate cmd.exe //k mklink "$link" "$target"
