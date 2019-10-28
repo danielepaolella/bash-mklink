@@ -6,7 +6,6 @@ Bash script to invoke Windows [`mklink`] command under elevated privileges.
 
 - A Bash interpreter for Windows, such as the one bundled with [Git for
   Windows].
-- [NirCmd].
 
 ## Usage
 
@@ -25,11 +24,9 @@ Bash script to invoke Windows [`mklink`] command under elevated privileges.
 - Support original `mklink` options, at least `/j`.
 - Return the command output to the calling shell.
 - Allow creating links to relative targets.
-- Drop NirCmd dependency, use the Powershell instead.
 - Provide a script to replace `ln`.
 
 
 [`mklink`]: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/mklink
 [Git for Windows]: https://gitforwindows.org/
-[NirCmd]: https://www.nirsoft.net/utils/nircmd.html
 [Git Bash]: https://gitforwindows.org/#bash

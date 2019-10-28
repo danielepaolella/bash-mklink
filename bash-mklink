@@ -1,17 +1,24 @@
 #!/bin/bash
 
-unix_path_to_win() {
+unix_path_to_powershell() {
 	# - convert to an absolute path
 	# - replace any starting /x/ by x:/
 	# - replace all / by \
+	# - wrap by PowerShell-escaped double quotes: `"
 	readlink -f "$1" \
 		| sed 's#^/\(\w\)/#\1:/#' \
-		| sed 's#/#\\#g'
+		| sed 's#/#\\#g' \
+		| sed 's#\(.*\)#\`\"\1\`\"#'
 }
 
-export unix_path_to_win
+export unix_path_to_powershell
 
-link=$(unix_path_to_win "$1")
-target=$(unix_path_to_win "$2")
+link=$(unix_path_to_powershell "$1")
+target=$(unix_path_to_powershell "$2")
 
-nircmdc.exe elevate cmd.exe //k mklink "$link" "$target"
+powershell.exe -Command Start-Process \
+	-FilePath cmd.exe \
+	-ArgumentList \"/k mklink $link $target\" \
+	-Verb RunAs
+# the same command could be run more concisely as:
+# powershell start cmd \"/k mklink $link $target\" -v runas
